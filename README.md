@@ -1,170 +1,156 @@
-# LensLink
+# BookBuy — Buy Anything. Go Anywhere.
 
-A photography & videography marketplace connecting clients with professional
-photographers and videographers — discovery, portfolios, booking, in-app messaging,
-secure payments via Paystack, provider payouts, and an admin dashboard.
+![Status](https://img.shields.io/badge/status-active-brightgreen)
+![Built with](https://img.shields.io/badge/built%20with-HTML5%20%7C%20CSS3%20%7C%20JS-orange)
+![Payments](https://img.shields.io/badge/payments-Paystack-0BA4DB)
+![Data Protection](https://img.shields.io/badge/NDPA%20Act-Observing-2e7d32)
+![License](https://img.shields.io/badge/license-Proprietary-red)
 
-Built for **NGCHIBYKE LTD**.
+**A product of NGCHIBYKE LTD**
 
-## Tech stack
+> The world's all-in-one e-commerce, travel booking, and transportation super app — powered by AI.
 
-- **Framework**: Next.js 16 (App Router, Turbopack, Server Actions)
-- **Language**: TypeScript
-- **Database**: SQLite via Prisma (local dev) — swap the datasource for PostgreSQL in production
-- **Auth**: NextAuth v5 (credentials/email+password, JWT sessions, role-based access)
-- **Styling**: Tailwind CSS v4
-- **Payments**: Paystack (checkout, webhooks, transfers/payouts)
-- **File storage**: local disk under `public/uploads` (swap for S3/Cloudinary/Supabase Storage in production)
+---
 
-## Getting started
+## About
+
+BookBuy is a full-stack multi-vendor marketplace and travel super app built for a global audience, with a strong focus on Africa and the Nigerian market. It combines:
+
+- 🛒 Amazon-style global marketplace
+- ✈️ Skyscanner-style flight search with price calendar & alerts
+- 🏨 Booking.com-style hotel reservations with loyalty rewards
+- 🚗 Uber-style transport booking
+- 🤖 AI-powered shopping and travel assistant
+
+---
+
+## Pages
+
+All paths below are relative to `frontend/`.
+
+| File | Page |
+|------|------|
+| `index.html` | Landing Page — full navigation, Explore Everywhere, Price Calendar, BookBuy Gold |
+| `product.html` | Product Detail — gallery, variants, reviews |
+| `checkout.html` | Checkout — Paystack, 7 payment methods |
+| `dashboard.html` | User Dashboard — orders, bookings, tracking, wallet |
+| `flights.html` | Flight Search — filters, calendar view, price alerts |
+| `hotels.html` | Hotel Search — filters, ratings, booking modal |
+| `transport.html` | Transport Booking — taxi, bus, train, ferry, airport transfer |
+| `vendor.html` | Vendor Dashboard — products, orders, analytics, payouts |
+| `admin.html` | Admin Panel — users, vendors, disputes, commissions |
+| `ai-assistant.html` | AI Chat Assistant — trip planning, product search |
+| `help.html` | Help Centre — FAQ, contact support |
+| `terms.html` | Terms & Conditions |
+| `privacy.html` | Privacy Policy |
+| `cookies.html` | Cookie Policy + live preference toggles |
+
+---
+
+## Company Information
+
+**NGCHIBYKE LTD**
+- **CEO / Founder:** Ngwobia Ofuche
+- **Address:** #5 Bike Close, off Sakono Street, opposite AP Plaza, Wuse 2, Abuja FCT, Nigeria
+- **Email:** ngchibykefotos@gmail.com
+- **Phone:** +234 803 534 6630 | +234 805 267 5004
+- **Website:** BookBuy
+
+---
+
+## Tech Stack
+
+- **Frontend:** HTML5, CSS3 (custom, no framework), Vanilla JavaScript
+- **Payments:** Paystack (primary), Flutterwave, PayPal, Apple Pay, Google Pay
+- **Shipping:** DHL, FedEx, UPS integration
+- **AI:** BookBuy AI Assistant (Claude-powered backend)
+- **Hosting:** Ready for Netlify / Vercel / AWS deployment
+
+---
+
+## Features vs Competitors
+
+| Feature | Booking.com | Skyscanner | BookBuy |
+|---------|------------|------------|---------|
+| Hotel booking | ✅ | ❌ | ✅ |
+| Flight search | ❌ | ✅ | ✅ |
+| Price calendar | ❌ | ✅ | ✅ |
+| Explore Everywhere | ❌ | ✅ | ✅ |
+| Price alerts | ✅ | ✅ | ✅ |
+| Loyalty rewards | ✅ (Genius) | ❌ | ✅ (BookBuy Gold) |
+| Global marketplace | ❌ | ❌ | ✅ |
+| Transport booking | ❌ | ❌ | ✅ |
+| AI trip planner | ❌ | ❌ | ✅ |
+| Paystack payments | ❌ | ❌ | ✅ |
+| African market focus | Partial | Partial | ✅ |
+
+---
+
+## Getting Started
+
+The static site lives in `frontend/`. To run it locally:
 
 ```bash
-npm install
-cp .env.example .env   # then fill in real values, see below
-npx prisma migrate dev # creates prisma/dev.db and applies the schema
-npm run db:seed        # seeds demo providers, clients, bookings, reviews
-npm run dev
+# Option 1 — Open directly
+open frontend/index.html
+
+# Option 2 — Use VS Code Live Server extension
+# Right-click frontend/index.html → Open with Live Server
+
+# Option 3 — Python local server
+cd frontend
+python3 -m http.server 3000
+# Then visit http://localhost:3000
 ```
 
-Visit http://localhost:3000.
+The `backend/` API (auth, cart, orders, payments) runs separately — see `backend/README.md`.
 
-### Demo logins (from `npm run db:seed`)
+---
 
-| Role | Email | Password |
-| --- | --- | --- |
-| Admin | the value of `PLATFORM_SUPPORT_EMAIL` (defaults to `ngchibykefotos@gmail.com`) | `Admin123!` |
-| Provider | `ada-eze@example.com` (and 5 more — see `prisma/seed.ts`) | `Password123!` |
-| Client | `ngozi.umeh@example.com` (and 2 more) | `Password123!` |
+## Deployment
 
-## Environment variables
+### Netlify (Recommended — free)
+1. Go to [netlify.com](https://netlify.com)
+2. Drag and drop the `frontend` folder onto the Netlify dashboard
+3. Your site is live instantly at a `.netlify.app` URL
+4. Add your custom domain (e.g. bookbuy.ng) in Site Settings → Domain Management
 
-See `.env.example` for the full list with comments. Summary:
-
-| Variable | Purpose |
-| --- | --- |
-| `DATABASE_URL` | Prisma connection string. `file:./dev.db` locally; a Postgres URL in production. |
-| `AUTH_SECRET` | Session signing secret for NextAuth. Generate with `openssl rand -base64 32`. |
-| `NEXTAUTH_URL` | Base URL of the app (used for auth callbacks). |
-| `PAYSTACK_SECRET_KEY` | Server-side Paystack secret key. Never expose to the client. |
-| `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY` | Paystack public key (safe to expose). Not currently used client-side since checkout is handled via Paystack's hosted page, but kept for future inline-checkout use. |
-| `PLATFORM_SUPPORT_EMAIL` / `PLATFORM_SUPPORT_PHONE` | Shown in the footer and used as the seeded admin account. |
-| `UPLOAD_DIR` | Local upload directory (MVP file storage). |
-
-## Paystack setup
-
-1. Create a Paystack account and grab your **test** secret/public keys from
-   `https://dashboard.paystack.com/#/settings/developers`.
-2. Put the secret key in `PAYSTACK_SECRET_KEY` and the public key in
-   `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY`.
-3. **Webhook**: in the Paystack dashboard, set the webhook URL to
-   `https://<your-deployed-domain>/api/payments/webhook`. This endpoint verifies the
-   `x-paystack-signature` header (HMAC-SHA512 of the raw body with your secret key) before
-   trusting any event, per Paystack's documented webhook security model.
-4. The booking payment flow:
-   - Client clicks **Pay now** on an accepted booking → `initiatePaymentAction` creates a
-     `Payment` row and calls `POST /transaction/initialize`, then redirects to Paystack's
-     hosted checkout.
-   - On completion, Paystack redirects back to `/api/payments/callback`, which re-verifies
-     the transaction server-side (`GET /transaction/verify/:reference`) — the query string
-     is never trusted directly.
-   - The `/api/payments/webhook` endpoint is the **source of truth**: it confirms payment
-     even if the client closes the tab before the redirect completes. Both paths call the
-     same idempotent `markPaymentPaid()` helper.
-   - On payment success, the booking moves to `CONFIRMED` and platform commission /
-     provider earnings are computed from `PlatformSetting.commissionPercent` (default 10%,
-     editable by admins under **Admin → Commission & settings**).
-5. **Payouts**: providers add a bank account (verified via Paystack's `/bank/resolve` and
-   turned into a `/transferrecipient`), then request withdrawals, which call Paystack's
-   `/transfer` endpoint. This requires your Paystack account to have transfers enabled
-   (may require additional KYC with Paystack for live keys).
-
-No test-mode simulation of "Google automatically pays you for sign-ups" or similar is
-implemented, per the spec's instruction — all platform revenue comes from booking
-commissions, optional featured-listing/premium fees (configurable, not yet billed
-automatically), and real, policy-compliant advertising if/when integrated.
-
-## Project structure
-
-```
-prisma/schema.prisma        Database schema (Users, ProviderProfile, Booking, Payment, …)
-prisma/seed.ts               Demo data seed script
-src/lib/                     Shared server logic: auth, prisma client, Paystack client,
-                              money formatting, storage, validation
-src/app/                     App Router pages
-  (public)                   /, /search, /providers/[slug], /login, /signup
-  /account                   Client dashboard (bookings, notifications)
-  /bookings/[id]              Booking detail: messaging, accept/decline, payment,
-                              delivery upload, completion, reviews
-  /provider/dashboard/*       Provider dashboard: overview, profile, portfolio,
-                              services & packages, availability, bookings, earnings,
-                              payouts
-  /admin/*                    Admin dashboard: overview/analytics, users, providers
-                              (verify/feature), bookings, reports & disputes,
-                              categories, commission & platform settings
-  /api/auth/*                  NextAuth + registration
-  /api/payments/*               Paystack callback + webhook
+### Vercel
+```bash
+npm i -g vercel
+vercel --prod frontend
 ```
 
-Most mutations are Next.js **Server Actions** (colocated `actions.ts` files) rather than
-separate REST routes — the two exceptions are `/api/payments/*` (must be reachable by
-Paystack's servers) and `/api/auth/*` (NextAuth's own routes, plus a JSON `register`
-endpoint kept for potential non-web clients).
+### GitHub Pages
+GitHub Pages only serves from the repo root or `/docs`, not `/frontend`, so either:
+- Publish `frontend/` as its own repo/branch, or
+- Use a GitHub Action (e.g. `actions/deploy-pages`) that uploads `frontend/` as the Pages artifact.
 
-## Assumptions made
+---
 
-The original spec ("MISSION" brief) left several implementation details unspecified.
-Where ambiguous, the safest, most conventional choice was made rather than inventing
-behaviour:
+## Push to GitHub (Step by Step)
 
-- **Currency**: Nigerian Naira (NGN) throughout, since the business (NGCHIBYKE LTD) and
-  Paystack integration are Nigeria-based. All amounts are stored in kobo (minor units) to
-  avoid floating-point rounding errors.
-- **Local dev database**: SQLite, for zero-setup local development. The schema is
-  provider-agnostic Prisma; switching `prisma/schema.prisma`'s datasource to
-  `postgresql` and setting `DATABASE_URL` is the only change needed for a production
-  Postgres database.
-- **File storage**: MVP uploads (portfolio photos/videos, delivered files) are written to
-  local disk under `public/uploads`. This does **not** survive redeploys on most hosting
-  platforms (e.g. Vercel's ephemeral filesystem) — before going live, swap
-  `src/lib/storage.ts` for a cloud bucket (S3, Cloudinary, Supabase Storage) behind the
-  same `saveUploadedFile()` interface.
-- **Commission model**: a single platform-wide commission percentage (admin-configurable,
-  default 10%), deducted at payment time, with provider earnings only "released" (an
-  `EARNING` transaction created) once the client confirms job completion — modelling an
-  escrow-like flow without literally holding funds outside Paystack's settlement.
-- **Featured listings / premium accounts**: the spec lists these as revenue streams and
-  they're modelled in the schema and admin settings, but self-service billing for them
-  (a provider paying to feature themselves) isn't wired up yet — today an admin manually
-  toggles a provider's "Featured" flag. Automating this is a natural next step (a Paystack
-  subscription/charge on the existing payment plumbing).
-- **Advertising**: the schema includes an `Advertisement` model (placement, impressions,
-  clicks) for a future ad-serving feature, but no ad network (e.g. Google AdMob) is wired
-  up — the spec was explicit that fake/incentivized ad activity must never be simulated,
-  so nothing here fabricates ad revenue.
-- **Disputes**: a lightweight dispute/report flow exists (either party can be reported;
-  admins resolve disputes and the booking moves to `COMPLETED`). Refunds through Paystack
-  are not automated — the spec didn't define refund policy, so this intentionally routes
-  to a human admin decision rather than guessing a refund percentage/policy.
-- **Notifications**: in-app only (a `Notification` row + list in the client/provider
-  dashboards). Email/SMS/push delivery isn't implemented — the spec asked for
-  notifications without specifying a channel, and adding a transactional email/SMS
-  provider is a config-only addition later (e.g. Resend, Termii) once you have accounts
-  for those services.
-- **Search**: text/location filtering plus specialty-category and rating filters,
-  backed directly by SQL queries (`ILIKE`-style `contains` matching). No dedicated search
-  index (e.g. Algolia/Meilisearch) — fine at MVP scale, worth revisiting if the provider
-  catalog grows large.
+```bash
+# 1. Clone or navigate to this folder
+cd bookbuy
 
-## Deployment notes
+# 2. The repo is already initialized. Add your GitHub remote:
+git remote add origin https://github.com/YOUR_USERNAME/bookbuy.git
 
-1. Provision a PostgreSQL database and set `DATABASE_URL`; update
-   `prisma/schema.prisma`'s `datasource.provider` to `"postgresql"`, then run
-   `npx prisma migrate deploy`.
-2. Set all secrets in `.env.example` as real environment variables on your host (never
-   commit `.env`).
-3. Point object storage (see "File storage" above) instead of local disk if deploying to
-   a platform with an ephemeral filesystem.
-4. Register the Paystack webhook URL against your production domain (see "Paystack
-   setup" above) — this is required for payments to confirm reliably.
-5. `npm run build && npm run start`, or deploy to a Next.js-compatible host (Vercel,
-   Railway, Render, etc.).
+# 3. Stage all files
+git add .
+
+# 4. Make your first commit
+git commit -m "Initial commit: BookBuy v1.0 — Full 14-page super app by NGCHIBYKE LTD"
+
+# 5. Push to GitHub
+git push -u origin main
+```
+
+---
+
+## License
+
+© 2025 NGCHIBYKE LTD. All rights reserved.
+BookBuy is a registered trademark of NGCHIBYKE LTD.
+Unauthorized reproduction or distribution is prohibited.
